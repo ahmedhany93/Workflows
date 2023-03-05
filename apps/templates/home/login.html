@@ -1,0 +1,72 @@
+{% extends "layouts/base-fullscreen.html" %}
+
+{% block title %} Login {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="content">
+        <div class="container">
+            <div class="row pt-5">
+                <div class="col-md-6 mt-5 offset-md-3 pt-5 mt-5">
+ 		   <div>
+  		   	{% with messages = get_flashed_messages(with_categories=true) %}
+      		   	{% if messages %}
+        	   	{% for category, message in messages %}
+                   	{% if category == 'message' %}
+              	   	    <div class="alert alert-warning" role="alert">
+            	   	{% else %}
+              	   	    <div class="alert alert-{{ category }}" role="alert">
+            	   	{% endif %}
+              	   	    {{ message }}
+             	   	    </div>
+       		   	{% endfor %}
+      		   	{% endif %}
+  		   	{% endwith %}
+		    	</div>
+                    <div class="card">
+                        <div class="card-header text-center py-4">
+                            <h4 class="title">Login to CT ADMIN</h4>
+                        </div>
+                        <div class="card-body px-5 py-3">
+                            <form
+                                method="POST"
+                                action="{{ '/authenticate'  }}"
+                                role="form">
+                              {{ form.csrf_token }}
+                                <div class="row">
+                                    <div class="col-md-12 px-md-1">
+                                        <div class="form-group">
+                                            <label>Username</label>
+                                            <input type="text" class="form-control" placeholder="Username"
+                                                   value="test" name="username" >
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 px-md-1">
+                                        <div class="form-group">
+                                            <label>Password</label>
+                                            <input type="password" class="form-control" placeholder="password"
+                                                    value="example@gmail.com" name="password">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <button type="submit" class="btn btn-fill btn-primary">Login</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

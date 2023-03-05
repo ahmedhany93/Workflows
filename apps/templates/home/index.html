@@ -1,0 +1,144 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Workflows Submission Application {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="content">
+        <div class="row">
+            <div class="col-md-12">
+               {% with messages = get_flashed_messages(with_categories=true) %}
+               {% if messages %}
+               {% for category, message in messages %}
+               {% if category == 'message' %}
+                  <div class="alert alert-warning" role="alert">
+               {% else %}
+                  <div class="alert alert-{{ category }}" role="alert">
+               {% endif %}
+                  {{ message }}
+                  </div>
+               {% endfor %}
+               {% endif %}
+               {% endwith %}
+                <div class="card ">
+                    <div class="card-header">
+                        <h4 class="card-title"> Jobs Table</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table tablesorter " id="">
+                                <thead class=" text-primary">
+                                <tr>
+                                    <th>
+                                        Application Name
+                                    </th>
+                                    <th>
+                                        Actions
+                                    </th>
+                                    <th class="text-center">
+                                        Application URL
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {%for project in projects%}
+                                <tr>
+                                    <td>
+                                       {{ project[0] }}
+                                    </td>
+                                    <td>
+				      <form method="post">
+                                          <button type="submit" style="margin:10px; font-size:12px; width:165px" class="btn btn-success"
+                                                name="action" value="{{ project[0] }}" formaction="/push"/>
+                                            <i class="fa fa-save"></i>
+                                              Submit Job
+                                          </button>
+
+                                          <button type="submit" style="margin:10px; font-size:12px; width:165px" class="btn btn-info" 
+						name="action" value="{{ project[0] }}" formaction="/pull"/>
+                                            <i class="fa fa-magnet"></i>
+                                              Pull
+                                          </button>
+
+                                          <button type="submit" style="margin:10px; font-size:12px; width:165px" class="btn btn-danger" 
+						name="action" value="{{ project[0] }}" formaction="/delete"/>
+                                            <i class="fa fa-trash"></i>
+                                              Delete
+                                          </button>
+
+                                          <a href="/files">
+                                          <button type="submit" style="margin:10px; font-size:12px; width:165px" class="btn btn-warning" 
+					 	name="action" value="{{ project[0] }}" formaction="/files"/>
+                                            <i class="fa fa-edit"></i>
+                                              Edit
+                                          </button>
+
+                                        </form>
+				    </td>
+                                    <td class="text-center">
+                                       {{project[1]}}
+                                    </td>
+                                </tr>
+                                {%endfor%}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+  
+    <div class="card ">
+      <div class="card-header">
+        <h4 class="card-title"> Fetch Project Using Username and Password</h4>
+      </div>
+
+    <div class="card card-body px-5 py-3">
+    <form
+        method="POST"
+        action="{{ '/fetch'  }}"
+        role="form">
+        <div class="row">
+            <div class="col-md-12 px-md-1">
+                <div class="form-group">
+
+                    <label>URL</label>
+                    <input type="text" class="form-control" placeholder="URL*" name="url" required>
+
+                    <label>Username</label>
+                    <input type="text" class="form-control" placeholder="Username*" name="username" required>
+
+                    <label>Password</label>
+                    <input type="password" class="form-control" placeholder="Password*" name="password" required>
+
+                    <label>Branch</label>
+                    <input type="text" class="form-control" placeholder="Branch (optional)" name="branch">
+
+
+                </div>
+            </div>
+        </div>
+            <button type="submit" class="btn btn-fill btn-primary">Fetch Project</button>
+    </form>
+    </div>
+    </div>
+
+    </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<script>
+    $(document).ready(function () {
+        // Javascript method's body can be found in assets/js/demos.js
+        demo.initDashboardPageCharts();
+
+    });
+</script>
+
+{% endblock javascripts %}
